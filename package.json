@@ -1,0 +1,25 @@
+{
+  "name": "vite-plugin-webarchive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/plugin.js",
+  "types": "lib/plugin.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@plist/common": "^1.1.0",
+    "@plist/plist": "^1.0.0",
+    "bplist-parser": "^0.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}
