@@ -3,7 +3,11 @@ import { WebArchive } from "./webarchive.js";
 import fs from "fs/promises";
 import { lookup } from "mime-types";
 
-export function webarchive(): Plugin {
+interface PluginOptions {
+  name: string;
+}
+
+export function webarchive(opts: PluginOptions): Plugin {
   let config: ResolvedConfig | undefined = undefined;
   return {
     name: "vite-plugin-webarchive",
@@ -68,7 +72,7 @@ export function webarchive(): Plugin {
 
       const projectDir = new URL(opts.dir! + "/", "file://");
       const outDir = new URL(config.build.outDir, projectDir);
-      const targetFileName = new URL("./index.webarchive", outDir);
+      const targetFileName = new URL(`./${opts.name}.webarchive`, outDir);
 
       await fs.writeFile(targetFileName, Buffer.from(archive.encode()));
     },

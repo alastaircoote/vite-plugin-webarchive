@@ -3,7 +3,7 @@ import { webarchive } from "vite-plugin-webarchive";
 
 export default defineConfig({
   base: "https://www.example.com/",
-  plugins: [webarchive()],
+  plugins: [webarchive({ name: "example" })],
   build: {
     rollupOptions: {
       input: {
