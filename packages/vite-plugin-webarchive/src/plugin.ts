@@ -1,21 +1,22 @@
 import type { Plugin, ResolvedConfig } from "vite";
 import { WebArchive } from "./webarchive.js";
-import fs from "fs/promises";
 import { lookup } from "mime-types";
 
 interface PluginOptions {
   name: string;
+  onlyWebArchive?: boolean;
 }
 
-export function webarchive(opts: PluginOptions): Plugin {
+export function webarchive(pluginOpts: PluginOptions): Plugin {
   let config: ResolvedConfig | undefined = undefined;
   return {
     name: "vite-plugin-webarchive",
-    enforce: "pre",
+    enforce: "post",
+    apply: "build",
     configResolved(providedConfig) {
       config = providedConfig;
     },
-    async writeBundle(opts, bundle) {
+    async generateBundle(opts, bundle) {
       if (!config?.base) {
         /**
          * The web archive needs to provide absolute URLs for all the files within it.
@@ -42,8 +43,12 @@ export function webarchive(opts: PluginOptions): Plugin {
       });
 
       for (const resource of Object.values(bundle)) {
+        if (pluginOpts.onlyWebArchive) {
+          delete bundle[resource.fileName];
+        }
         if (resource.fileName === "index.html") {
           // already added it as the main resource
+
           continue;
         }
         const absoluteURL = new URL(resource.fileName, config.base);
@@ -68,13 +73,16 @@ export function webarchive(opts: PluginOptions): Plugin {
           },
           sourceAsArrayBuffer
         );
+
       }
 
-      const projectDir = new URL(opts.dir! + "/", "file://");
-      const outDir = new URL(config.build.outDir, projectDir);
-      const targetFileName = new URL(`./${opts.name}.webarchive`, outDir);
+      this.emitFile({
+        type: "asset",
+        fileName: `${pluginOpts.name}.webarchive`,
+        name: pluginOpts.name,
+        source: Buffer.from(archive.encode()),
+      });
 
-      await fs.writeFile(targetFileName, Buffer.from(archive.encode()));
     },
   };
 }
