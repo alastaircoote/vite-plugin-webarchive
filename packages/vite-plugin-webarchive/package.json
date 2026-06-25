@@ -1,10 +1,20 @@
 {
   "name": "vite-plugin-webarchive",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "lib/plugin.js",
   "types": "lib/plugin.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/plugin.d.ts",
+      "default": "./lib/plugin.js"
+    },
+    "./webarchive": {
+      "types": "./lib/webarchive.d.ts",
+      "default": "./lib/webarchive.js"
+    }
+  },
   "files": [
     "lib/*"
   ],

@@ -5,6 +5,7 @@ import {
   ResponseData,
 } from "./archive-objects/nshttpurlresponse.js";
 import { KeyedArchive } from "./keyed-archive.js";
+export type { ResponseData } from "./archive-objects/nshttpurlresponse.js";
 
 interface WebResource extends Dictionary {
   WebResourceMIMEType: string;

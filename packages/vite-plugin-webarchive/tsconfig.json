@@ -3,9 +3,12 @@
     "target": "ESNext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "rootDir": "src",
     "strict": true,
     "outDir": "lib",
     "declaration": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
